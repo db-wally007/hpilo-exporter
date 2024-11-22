@@ -445,8 +445,8 @@ class ILOExporterServer(object):
         self.endpoint = endpoint
 
     def print_info(self):
-        print_err("Starting exporter on: http://{}:{}{}".format(self._address, self._port, self.endpoint))
-        print_err("Press Ctrl+C to quit")
+        print("Starting exporter on: http://{}:{}{}".format(self._address, self._port, self.endpoint))
+        print("Press Ctrl+C to quit")
 
     def run(self):
         self.print_info()
