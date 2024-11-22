@@ -6,7 +6,7 @@ import sys
 # import ssl
 import time
 import os
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer, HTTPStatus
 from urllib.parse import parse_qs, urlparse   # quote_plus,
 from socketserver import ThreadingMixIn
 import psutil  # process handling, zombies
