@@ -42,6 +42,21 @@ class RequestHandler(BaseHTTPRequestHandler):
     # P is all metrics prefix
     P = 'hpilo_'
 
+    ## Do not log requests that get HTTP code 200
+    #def log_request(self, code='-', size='-'):
+    #    if isinstance(code, HTTPStatus):
+    #        code = code.value
+    #    if code >= 200 and code < 300:
+    #        return
+    #    self.log_message('"%s" %s %s',
+    #                     self.requestline, str(code), str(size))
+
+    ## Log successful log_requests to stdout instead of stderr
+    def log_request(self, code='-', size='-'):
+        if isinstance(code, HTTPStatus):
+            code = code.value
+        print(f'"{self.requestline}" {code} {size}')
+
     def __init__(self, request, client_address, server):
 
         self.registry = None
