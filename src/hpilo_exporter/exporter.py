@@ -436,13 +436,6 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(bytes("Not found.\n", "utf-8"))
 
-        except Exception as e:  # Add this block at the end
-            print_err(f"Error processing request: {e}")
-            self.send_response(500)
-            self.send_header("Content-type", "text/plain")
-            self.end_headers()
-            self.wfile.write(bytes("Internal server error\n", "utf-8"))
-
 class ILOExporterServer(object):
     """
     Basic server implementation that exposes metrics to Prometheus
