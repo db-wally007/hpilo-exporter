@@ -6,6 +6,7 @@ import sys
 # import ssl
 import time
 import os
+import re
 from http.server import BaseHTTPRequestHandler, HTTPServer, HTTPStatus
 from urllib.parse import parse_qs, urlparse   # quote_plus,
 from socketserver import ThreadingMixIn
@@ -52,10 +53,12 @@ class RequestHandler(BaseHTTPRequestHandler):
     #                     self.requestline, str(code), str(size))
 
     ## Log successful log_requests to stdout instead of stderr
-    def log_request(self, code='-', size='-'):
+    def log_request(self, code='-'):
+        ex = re.compile(r'(password|user)=([^ &]+)')
         if isinstance(code, HTTPStatus):
             code = code.value
-        print(f'"{self.requestline}" {code} {size}')
+        line = ex.sub(r'\1=***', self.requestline)
+        print(f'"{line}" {code}')
 
     def __init__(self, request, client_address, server):
 
@@ -433,6 +436,12 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(bytes("Not found.\n", "utf-8"))
 
+        except Exception as e:  # Add this block at the end
+            print_err(f"Error processing request: {e}")
+            self.send_response(500)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(bytes("Internal server error\n", "utf-8"))
 
 class ILOExporterServer(object):
     """
